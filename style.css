@@ -1,0 +1,60 @@
+body{
+	margin:0;
+}
+
+.nav-bar{
+	background-color: #5587AC;
+}
+
+.nav-ul{
+	list-style-type: none;
+	float: none;
+	margin:0;
+}
+
+.nav-ul li{
+	display: inline-block;
+	margin:0;
+}
+
+.nav-ul li a{
+	color: white;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 5px;
+	padding-right: 5px;
+	background-color: #5587AC;
+	display: block;
+}
+
+.nav-ul .active a{
+	color: white;
+	background-color: black;
+}
+
+.login-box{
+
+}
+
+.product-box{
+	border-color: black;
+	border-width: 1px;
+	border-style: solid;
+	background-color: #E0E8FE;
+	margin: 10px;
+	padding: 5px;
+	width: 50vh;
+	height: auto;
+}
+
+.product-box .description-title{
+	font-weight: bold;
+}
+
+.product-box .price-title{
+	font-weight: bold;
+}
+
+.product-box .in-store-title{
+	font-weight: bold;
+}
