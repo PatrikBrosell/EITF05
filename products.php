@@ -22,8 +22,10 @@
             <li><a href="index.html">Home</a></li>
             <li class="active"><a href="#">Products</a></li>
             <li><a href="contact.php">Contact</a></li>
-            <li class="login-box"><a href="login.php">Login</a></li><!--this line should be generated with php code, it should switch between "Login" and "Logout" depending on your status-->
-            <li class="login-box"><a href="shopcart.php">Cart</a></li><!--this line should be generated with php code and should not even be displayed unless LOGGED IN-->
+            <div class="align-right">
+	            <li class="login-box"><a href="login.php">Login</a></li><!--this line should be generated with php code, it should switch between "Login" and "Logout" depending on your status-->
+	            <li class="login-box"><a href="shopcart.php">Cart</a></li><!--this line should be generated with php code and should not even be displayed unless LOGGED IN-->
+            </div>
          </ul>
 	  </div>
 

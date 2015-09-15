@@ -1,5 +1,6 @@
 body{
 	margin:0;
+	background-color: #F1F2F3;
 }
 
 .nav-bar{
@@ -8,8 +9,9 @@ body{
 
 .nav-ul{
 	list-style-type: none;
-	float: none;
 	margin:0;
+	margin-right:25vh;
+	margin-left:25vh;
 }
 
 .nav-ul li{
@@ -25,26 +27,46 @@ body{
 	padding-right: 5px;
 	background-color: #5587AC;
 	display: block;
+	text-decoration: none;
+	font-size: 18px;
 }
 
 .nav-ul .active a{
-	color: white;
-	background-color: black;
+	color: black;
+	background-color: #F1F2F3;
+}
+
+.align-left{
+	clear: both;
+	float: left;
+}
+
+.align-right{
+	clear: both;
+	float: right;
 }
 
 .login-box{
 
 }
 
+.content-window{
+	margin: 10px;
+	margin-right: 20vh;
+	margin-left: 20vh;
+}
+
 .product-box{
 	border-color: black;
 	border-width: 1px;
 	border-style: solid;
-	background-color: #E0E8FE;
-	margin: 10px;
+	background-color: #E1EAF0;
+	margin-bottom: 10px;
+	margin-right: 10px;
 	padding: 5px;
 	width: 50vh;
 	height: auto;
+	color: #444444;
 }
 
 .product-box .description-title{
