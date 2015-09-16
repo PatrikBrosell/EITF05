@@ -1,3 +1,7 @@
+<?php
+session_start(); //start this at once!
+?>
+
 <html lang="en">
 	<head>
 	  <meta charset="utf-8">
@@ -21,12 +25,16 @@
 				<li><a href="products.php">Products</a></li>
 				<li><a href="contact.php">Contact</a></li>
 				<div class="align-right">
-					<?php session_start();
-	            	if(isset($_SESSION['loginUserName'])){
-	            		echo '<li class="login-box"><a href="#">'.$_SESSION['loginUserName'].'</a></li>';
-	            	}?>
-					<li class="login-box"><a href="loginForm.php">Login</a></li><!--this line should be generated with php code, it should switch between "Login" and "Logout" depending on your status-->
-					<li class="login-box"><a href="shopcart.php">Cart</a></li><!--this line should be generated with php code and should not even be displayed unless LOGGED IN-->
+					<?php
+            	if(isset($_SESSION['loginUserName'])){
+            		echo '<li class="login-box"><a href="#">'.$_SESSION['loginUserName'].'</a></li>';
+	           		echo '<li class="login-box"><a href="logout.php">Logout</a></li>';
+	           		echo '<li class="login-box"><a href="shopcart.php">Cart</a></li>';
+            	}
+            	else{
+            		echo '<li class="login-box"><a href="loginForm.php">Login</a></li>';
+            	}
+            	?>
 				</div>
 			</ul>
 		</div>

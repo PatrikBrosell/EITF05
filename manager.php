@@ -1,5 +1,6 @@
 <?php
 
+
 class Manager {
 
 	/*
@@ -8,7 +9,8 @@ class Manager {
 	private $dbHost;
 	private $db;
 	private $dbUserName;
-	private $dbPassword; //should this be a central secret password only we know? since user passwords should NOT give them db access.. ??
+	private $dbPassword;
+
 	private $dbConnection;
 	private $dbResult;
 
@@ -24,14 +26,16 @@ class Manager {
 	//-----------------------------------------------------------------------------------------------
 	//-----------------------------------------------------------------------------------------------
 
-	public function __construct($dbHost, $db, $dbUserName, $dbPassword, $loginUserName, $loginPassword){
-		$this->dbHost = $dbHost;
-		$this->db = $db;
-		$this->dbUserName = $dbUserName;
-		$this->dbPassword = $dbPassword;
+	public function __construct(){
+		require_once("database_connection_data.php"); //to access our DB connection variables
+		$array = array($dbHostC, $dbC, $dbUserNameC, $dbPasswordC);
+		$this->dbHost = $array[0];
+		$this->db = $array[1];
+		$this->dbUserName = $array[2];
+		$this->dbPassword = $array[3];
 
-		$this->loginUserName = $loginUserName;
-		$this->loginPassword = $loginPassword;
+		//$this->loginUserName = $loginUserName;
+		//$this->loginPassword = $loginPassword;
 		
 	}
 
@@ -53,7 +57,7 @@ class Manager {
 		$hashedPW = $this->hashPassword($pw);
 		$resultSet = $this->executeQuery($sqlLoginUser, array($userName));
 		if(count($resultSet) == 1){
-			if($resultSet[0][password] == $hashedPW){
+			if($resultSet[0]['password'] == $hashedPW){
 				//fix login php session stuff? Or handle that in login.php?
 				return true;
 			}

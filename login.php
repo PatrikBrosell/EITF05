@@ -3,7 +3,7 @@
 	* NOTE: This page is NOT the login input page. This is where you are taken AFTER login button was pushed.
 	*/
 	require_once('manager.php'); //we'll need access to this only once
-	require_once("database_connection_data.php"); //same here as above
+	//require_once("database_connection_data.php"); //same here as above
 
 	$loginUserName;
 	$loginPassword;
@@ -13,7 +13,7 @@
 	$loginUserName = $_REQUEST['loginUserName']; //this was sent here from a form on the previous page
 	$loginPassword = $_REQUEST['loginPassword']; //this was sent here from a form on the previous page
 
-	$manager = new Manager($dbHost, $db, $dbUserName, $dbPassword, $loginUserName, $loginPassword);
+	$manager = new Manager();
 	$manager->openConnection();
 	if (!$manager->isConnected()) {
 		header("Location: home.php");

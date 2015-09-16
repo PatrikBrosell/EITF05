@@ -1,6 +1,6 @@
 <?php
-	$dbHost = "localhost";
-	$db = "webshop12database";
-	$dbUserName = "admin";
-	$dbPassword = "admin";
+	$dbHostC = "localhost";
+	$dbC = "webshop12database";
+	$dbUserNameC = "admin";
+	$dbPasswordC = "admin";
 ?>
