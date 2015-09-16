@@ -5,11 +5,12 @@ class Manager {
 	/*
 	 * Database variables
 	 */
-	private $db;
 	private $dbHost;
+	private $db;
+	private $dbUserName;
+	private $dbPassword; //should this be a central secret password only we know? since user passwords should NOT give them db access.. ??
 	private $dbConnection;
 	private $dbResult;
-	private $dbPassword; //should this be a central secret password only we know? since user passwords should NOT give them db access..
 
 	/*
 	 * User Login variables
@@ -23,10 +24,11 @@ class Manager {
 	//-----------------------------------------------------------------------------------------------
 	//-----------------------------------------------------------------------------------------------
 
-	public function __construct($dbHost, $db, $dbPassword, $loginUserName, $loginPassword){
+	public function __construct($dbHost, $db, $dbUserName, $dbPassword, $loginUserName, $loginPassword){
 		$this->dbHost = $dbHost;
 		$this->db = $db;
-		$this->password = $password;
+		$this->dbUserName = $dbUserName;
+		$this->dbPassword = $dbPassword;
 
 		$this->loginUserName = $loginUserName;
 		$this->loginPassword = $loginPassword;
@@ -39,15 +41,31 @@ class Manager {
 	 */
 	public function hashPassword($pw){
 		//hash it
-		return null;
+		return $pw;
 	}
 
 	/*
 	 * Logs in a user
+	 * Returns true if login is successful, return false if not
 	 */
 	public function loginUser($userName, $pw){
-		$hashedPW = hashPassword($pw);
-		// do more stuff
+		$sqlLoginUser = "select password from users where username = ?";
+		$hashedPW = $this->hashPassword($pw);
+		$resultSet = $this->executeQuery($sqlLoginUser, array($userName));
+		if(count($resultSet) == 1){
+			if($resultSet[0][password] == $hashedPW){
+				//fix login php session stuff? Or handle that in login.php?
+				return true;
+			}
+			else{
+				//generate fail login html content? Or handle that in login.php?
+				return false;
+			}
+		}
+		else{
+			//generate fail login html content? Or handle that in login.php?
+			return false;
+		}
 	}
 
 	/*
@@ -64,6 +82,14 @@ class Manager {
 	public function registerUser($userName, $pw, $homeAddress){
 		//IF(database !has $userName) THEN database.add(userName, hashPassword(pw), homeAddress) RETURN true
 		//ELSE RETURN false
+	}
+
+	/*
+	 * Returns an array of all products in the database
+	 */
+	public function getProductsAll(){
+		$sqlGetProductsAll = "select * from products";
+		return $resultSet = $this->executeQuery($sqlGetProductsAll, null);
 	}
 
 
@@ -90,9 +116,9 @@ class Manager {
 	 */
 	public function openConnection() {
 		try {
-			$this->conn = new PDO("mysql:host=$this->host;dbname=$this->database", 
-					$this->userName,  $this->password);
-			$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$this->dbConnection = new PDO("mysql:host=$this->dbHost;dbname=$this->db", 
+					$this->dbUserName,  $this->dbPassword);
+			$this->dbConnection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		} catch (PDOException $e) {
 			$error = "Connection error: " . $e->getMessage();
 			print $error . "<p>";
@@ -106,8 +132,8 @@ class Manager {
 	 * Closes the connection to the database.
 	 */
 	public function closeConnection() {
-		$this->conn = null;
-		unset($this->conn);
+		$this->dbConnection = null;
+		unset($this->dbConnection);
 	}
 
 	/**
@@ -116,7 +142,7 @@ class Manager {
 	 * @return true if the connection has been established
 	 */
 	public function isConnected() {
-		return isset($this->conn);
+		return isset($this->dbConnection);
 	}
 	
 	/**
@@ -128,7 +154,7 @@ class Manager {
 	 */
 	private function executeQuery($query, $param = null) {
 		try {
-			$stmt = $this->conn->prepare($query);
+			$stmt = $this->dbConnection->prepare($query);
 			$stmt->execute($param);
 			$result = $stmt->fetchAll();
 		} catch (PDOException $e) {
@@ -147,7 +173,7 @@ class Manager {
 	 */
 	private function executeUpdate($query, $param = null) {
 		try {
-			$stmt = $this->conn->prepare($query);
+			$stmt = $this->dbConnection->prepare($query);
 			$stmt->execute($param);
 			$result = $stmt->rowCount();
 		} catch (PDOException $e) {
@@ -156,7 +182,5 @@ class Manager {
 		}
 		return $result;
 	}
-
-
-
+}
 ?>

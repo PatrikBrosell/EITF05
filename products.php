@@ -1,4 +1,7 @@
-<!doctype html>
+<?php
+require_once('manager.php');
+session_start(); //start this at once!
+?>
 
 <html lang="en">
 	<head>
@@ -19,11 +22,15 @@
 	  <!-- <script src="js/scripts.js"></script> -->
 	  <div class="nav-bar">
 	  	<ul class="nav-ul">
-            <li><a href="index.html">Home</a></li>
+            <li><a href="index.php">Home</a></li>
             <li class="active"><a href="#">Products</a></li>
             <li><a href="contact.php">Contact</a></li>
             <div class="align-right">
-	            <li class="login-box"><a href="login.php">Login</a></li><!--this line should be generated with php code, it should switch between "Login" and "Logout" depending on your status-->
+            	<?php
+            	if(isset($_SESSION['loginUserName'])){
+            		echo '<li class="login-box"><a href="#">'.$_SESSION['loginUserName'].'</a></li>';
+            	}?>
+	            <li class="login-box"><a href="loginForm.php">Login</a></li><!--this line should be generated with php code, it should switch between "Login" and "Logout" depending on your status-->
 	            <li class="login-box"><a href="shopcart.php">Cart</a></li><!--this line should be generated with php code and should not even be displayed unless LOGGED IN-->
             </div>
          </ul>
@@ -32,6 +39,42 @@
 	  <div class="content-window">
 
 	  <!-- product boxes should be generated with php code -->
+	  <?php
+	  	$manager = $_SESSION['manager'];
+	  	$manager->openConnection();
+		if (!$manager->isConnected()) {
+			header("Location: home.php");
+			exit(); //Kill if we cannot connect to the database
+		}
+		$resultSet = $manager->getProductsAll();
+		for($i = 0; $i < count($resultSet); $i++){
+			$product = array();
+			array_push($product, $resultSet[$i]['name']);
+			array_push($product, $resultSet[$i]['description']);
+			array_push($product, $resultSet[$i]['price']);
+			array_push($product, $resultSet[$i]['nbrInStore']);
+			echo '<div class="product-box">
+			<h3>'.$product[0].'</h3>
+
+			<p class="description-title">Description:</p>
+			<p class="description">'.$product[1].'</p>
+
+			<p class="price-title">Price:</p>
+			<p class="price">'.$product[2].'SEK</p>
+
+			<p class="in-store-title">Nbr in store:</p>
+			<p class="in-store">'.$product[3].'</p>
+
+			<!-- form is also php generated from database data -->
+			<form action="addtocart.php">
+				<input type="submit" value="Add">
+				<input type="number" name="quantity" value="1" min="1" max="'.$product[3].'">
+				to cart
+			</form> 
+		</div>';
+		}
+		$manager->closeConnection();
+	  ?>
 		<div class="product-box">
 			<h3>Product Title</h3>
 
@@ -51,9 +94,7 @@
 				to cart
 			</form> 
 		</div>
-	  </div>
 
-	  <div class="content-window">
 		<div class="product-box">
 			<h3>Product Title</h3>
 
@@ -73,7 +114,7 @@
 				to cart
 			</form> 
 		</div>
-	  </div>
 
+	</div>
 	</body>
 </html>
