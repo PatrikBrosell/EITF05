@@ -1,6 +1,7 @@
 body{
 	margin:0;
-	background-color: #F1F2F3;
+	background-color: #D8D9E0;
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 .nav-bar{
@@ -10,8 +11,9 @@ body{
 .nav-ul{
 	list-style-type: none;
 	margin:0;
-	margin-right:25vh;
-	margin-left:25vh;
+	margin-right: 20vh;
+	margin-left: 20vh;
+	padding:0;
 }
 
 .nav-ul li{
@@ -29,6 +31,7 @@ body{
 	display: block;
 	text-decoration: none;
 	font-size: 18px;
+	min-height: 2vh;
 }
 
 .nav-ul .active a{
@@ -47,36 +50,99 @@ body{
 }
 
 .login-box{
+	
+}
 
+.login-box-user a{
+	background-color: #98B7CD;
 }
 
 .content-window{
-	margin: 10px;
+	/*margin: 10px;*/
 	margin-right: 20vh;
 	margin-left: 20vh;
+	padding: 10px;
+	background-color: #F1F2F3;
+
+	border-style: solid;
+	border-width: 1px;
+	border-color: #C8CED2;
+	min-height: 99vh;
+}
+
+.center{
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .product-box{
-	border-color: black;
-	border-width: 1px;
 	border-style: solid;
-	background-color: #E1EAF0;
+	border-width: 1px;
+	border-color: #C8CED2;
+	color: #000000;
+	background-color: white;
 	margin-bottom: 10px;
 	margin-right: 10px;
-	padding: 5px;
+	/*padding: 5px;*/
 	width: 50vh;
 	height: auto;
-	color: #444444;
+	float:left;
 }
 
-.product-box .description-title{
+.product-box h3{
+	color: white;
+	font-family: Arial, Helvetica, sans-serif;
+	margin:0;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	background-color: #779FBD;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.product-box p{
+	line-height: 30%;
+	font-family: Arial, Helvetica, sans-serif;
+	/*padding-left: 5px;
+	padding-right: 5px;*/
+}
+
+.product-box form{
+/*	padding-left: 5px;
+	padding-right: 5px;*/
+}
+
+.product-box .line-title{
 	font-weight: bold;
 }
 
-.product-box .price-title{
-	font-weight: bold;
+.text-box{
+	margin-left: 5px;
+	margin-right: 5px;
 }
 
-.product-box .in-store-title{
-	font-weight: bold;
+.text-box.yellow{
+/*	background-color: yellow;*/
+}
+
+.float-left{
+	float: left;
+}
+
+.float-right{
+	float: right;
+}
+
+footer {
+	min-height: auto;
+	background-color: #5587AC;
+}
+
+footer p{
+	background-color: #5587AC;
+	margin: 0;
+	padding:15px;
+	color: white;
+	font-style: italic;
+	font-size: 10px;
 }

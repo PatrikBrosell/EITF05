@@ -96,6 +96,11 @@ class Manager {
 		return $resultSet = $this->executeQuery($sqlGetProductsAll, null);
 	}
 
+	public function buyProduct($id, $count){
+		$sqlBuyProduct = "UPDATE products SET nbrInStore=((SELECT nbrInStore from products where id == ?)-?) WHERE id==?;";
+		return $result = $this->executeUpdate($sqlBuyProduct, array($id, $count, $id)); 
+	}
+
 
 
 

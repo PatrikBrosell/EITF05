@@ -27,7 +27,7 @@ session_start(); //start this at once!
 				<div class="align-right">
 					<?php
             	if(isset($_SESSION['loginUserName'])){
-            		echo '<li class="login-box"><a href="#">'.$_SESSION['loginUserName'].'</a></li>';
+            		echo '<li class="login-box-user"><a href="#">'.$_SESSION['loginUserName'].'</a></li>';
 	           		echo '<li class="login-box"><a href="logout.php">Logout</a></li>';
 	           		echo '<li class="login-box"><a href="shopcart.php">Cart</a></li>';
             	}
@@ -44,4 +44,9 @@ session_start(); //start this at once!
 	  </div>
 
 	</body>
+
+		<footer>
+		<p class="float-left">Adrian Hansson, Jan Karlsson, Patrik Brosell, Johan Brantberg</p>
+		<p class="float-right">EITF05 - Grupp 12</p>
+	</footer>
 </html>
