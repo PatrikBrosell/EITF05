@@ -49,7 +49,7 @@ session_start(); //start this at once!
 						$manager = new Manager();
 						$manager->openConnection();
 						if (!$manager->isConnected()) {
-							header("Location: home.php");
+							header("Location: index.php");
 							exit(); //Kill if we cannot connect to the database
 						}
 						$_SESSION['manager'] = $manager;
@@ -59,7 +59,7 @@ session_start(); //start this at once!
 					$manager = $_SESSION['manager'];
 					$manager->openConnection();
 				if (!$manager->isConnected()) {
-					header("Location: home.php");
+					header("Location: index.php");
 					exit(); //Kill if we cannot connect to the database
 				}
 				$resultSet = $manager->getProductsAll();

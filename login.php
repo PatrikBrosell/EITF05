@@ -16,7 +16,7 @@
 	$manager = new Manager();
 	$manager->openConnection();
 	if (!$manager->isConnected()) {
-		header("Location: home.php");
+		header("Location: index.php");
 		exit(); //Kill if we cannot connect to the database
 	}
 
