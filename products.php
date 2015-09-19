@@ -1,6 +1,23 @@
 <?php
 require_once('manager.php');
 session_start(); //start this at once!
+if(!isset($_SESSION['manager'])){
+	$manager = new Manager();
+	$manager->openConnection();
+	if (!$manager->isConnected()) {
+		header("Location: index.php");
+		exit(); //Kill if we cannot connect to the database
+	}
+	$_SESSION['manager'] = $manager;
+	$manager->closeConnection();
+}
+
+$manager = $_SESSION['manager'];
+$manager->openConnection();
+if (!$manager->isConnected()) {
+	header("Location: index.php");
+	exit(); //Kill if we cannot connect to the database
+}
 ?>
 
 <html lang="en">
@@ -45,24 +62,8 @@ session_start(); //start this at once!
 			<div class="center">
 				<!-- product boxes should be generated with php code -->
 				<?php
-					if(!isset($_SESSION['manager'])){
-						$manager = new Manager();
-						$manager->openConnection();
-						if (!$manager->isConnected()) {
-							header("Location: index.php");
-							exit(); //Kill if we cannot connect to the database
-						}
-						$_SESSION['manager'] = $manager;
-						$manager->closeConnection();
-					}
-
-					$manager = $_SESSION['manager'];
-					$manager->openConnection();
-				if (!$manager->isConnected()) {
-					header("Location: index.php");
-					exit(); //Kill if we cannot connect to the database
-				}
-				$resultSet = $manager->getProductsAll();
+				$manager->printProducts(); //prints the proper HTML
+				/*$resultSet = $manager->getProductsAll();
 				for($i = 0; $i < count($resultSet); $i++){
 					$product = array();
 					array_push($product, $resultSet[$i]['name']);
@@ -97,7 +98,7 @@ session_start(); //start this at once!
 							</form> 
 						</div>
 					</div>';
-				}
+				}*/
 				$manager->closeConnection();
 				//$_SESSION['manager'] = null;
 				?>

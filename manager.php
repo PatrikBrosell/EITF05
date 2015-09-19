@@ -96,8 +96,101 @@ class Manager {
 		return $resultSet = $this->executeQuery($sqlGetProductsAll, null);
 	}
 
+	public function printProducts(){
+		$sqlGetProductsAll = "select * from products";
+		$resultSet = $this->executeQuery($sqlGetProductsAll, null);
+		for($i = 0; $i < count($resultSet); $i++){
+			$product = array();
+			array_push($product, $resultSet[$i]['name']);
+			array_push($product, $resultSet[$i]['description']);
+			array_push($product, $resultSet[$i]['price']);
+			array_push($product, $resultSet[$i]['nbrInStore']);
+			array_push($product, $resultSet[$i]['id']);
+			echo '
+			<div class="product-box">
+				<h3 class="line-title">'.$product[0].'</h3>
+
+				<div class="text-box blue">
+					<p class="line-title">Description:</p>
+					<p class="description">'.$product[1].'</p>
+				</div>
+
+				<div class="text-box green">
+					<p class="line-title">Price:</p>
+					<p>'.$product[2].'SEK</p>
+				</div>
+				
+				<div class="text-box yellow">
+					<p class = "line-title">Nbr in store:</p>
+					<p>'.$product[3].'</p>
+				</div>
+
+				<!-- form is also php generated from database data -->
+				<div class="text-box green">
+					<form method=post action="addtocart.php">
+						<input type="hidden" name="productID" value="'.$product[4].'">
+						<input type="submit" value="Add">
+						<input type="number" name="productCount" value="1" min="1" max="'.$product[3].'">
+						to cart
+					</form> 
+				</div>
+			</div>';
+		}
+	}
+
+	public function printProduct($id, $nbr){
+		$sqlGetProduct = "select * from products where id = ?";
+		var_dump($sqlGetProduct);
+		$resultSet = $this->executeQuery($sqlGetProduct, array($id));
+		for($i = 0; $i < count($resultSet); $i++){
+			$product = array();
+			array_push($product, $resultSet[$i]['name']);
+			array_push($product, $resultSet[$i]['description']);
+			array_push($product, $resultSet[$i]['price']);
+			array_push($product, $resultSet[$i]['nbrInStore']);
+			array_push($product, $resultSet[$i]['id']);
+			echo '
+			<div class="product-box">
+				<h3 class="line-title">'.$product[0].'</h3>
+
+				<div class="text-box blue">
+					<p class="line-title">Description:</p>
+					<p class="description">'.$product[1].'</p>
+				</div>
+
+				<div class="text-box green">
+					<p class="line-title">Price:</p>
+					<p>'.$product[2]*$nbr.'SEK, ('.$product[2].'SEK/unit)</p>
+				</div>
+				
+				<div class="text-box yellow">
+					<p class = "line-title">Nbr in cart:</p>
+					<p>'.$nbr.'</p>
+				</div>
+
+				<!-- form is also php generated from database data -->
+				<div class="text-box green">
+					<form method=post action="addtocart.php">
+						<input type="hidden" name="productID" value="'.$product[4].'">
+						<input type="submit" value="Remove from cart">
+						<input type="number" name="productCount" value="1" min="1" max="'.$count.'">
+						to cart
+					</form> 
+				</div>
+			</div>';
+		}
+	}
+
+	public function addToCart($id, $count){
+		if(!isset($_SESSION['cartArray'])){
+			$_SESSION['cartArray'] = array();
+		}
+		array_push($_SESSION['cartArray'], array($id, $count));
+	}
+
 	public function buyProduct($id, $count){
-		$sqlBuyProduct = "UPDATE products SET nbrInStore=((SELECT nbrInStore from products where id == ?)-?) WHERE id==?;";
+		$sqlBuyProduct = "UPDATE products SET nbrInStore=((SELECT nbrInStore from products where id=?)-?) WHERE id=?;";
+
 		return $result = $this->executeUpdate($sqlBuyProduct, array($id, $count, $id)); 
 	}
 
@@ -154,13 +247,6 @@ class Manager {
 		return isset($this->dbConnection);
 	}
 	
-	/**
-	 * Execute a database query (select).
-	 *
-	 * @param $query The query string (SQL), with ? placeholders for parameters
-	 * @param $param Array with parameters 
-	 * @return The result set
-	 */
 	private function executeQuery($query, $param = null) {
 		try {
 			$stmt = $this->dbConnection->prepare($query);
@@ -173,13 +259,6 @@ class Manager {
 		return $result;
 	}
 	
-	/**
-	 * Execute a database update (insert/delete/update).
-	 *
-	 * @param $query The query string (SQL), with ? placeholders for parameters
-	 * @param $param Array with parameters 
-	 * @return The number of affected rows
-	 */
 	private function executeUpdate($query, $param = null) {
 		try {
 			$stmt = $this->dbConnection->prepare($query);
