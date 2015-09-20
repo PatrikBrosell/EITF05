@@ -2,9 +2,14 @@
 	require_once('manager.php');
 	session_start();
 	$manager = $_SESSION['manager'];
+	$manager->openConnection();
+	if (!$manager->isConnected()) {
+		header("Location: index.php");
+		exit(); //Kill if we cannot connect to the database
+	}
 ?>
 
-<html lang="en">
+<html>
 	<head>
 	  <meta charset="utf-8">
 
@@ -49,7 +54,7 @@
 					for($i = 0; $i < count($_SESSION['cartArray']); $i++){
 						$id = $_SESSION['cartArray'][$i][0];
 						$nbr = $_SESSION['cartArray'][$i][1];
-						$manager->printProduct($id, $nbr);
+						$manager->printProductCart($id, $nbr);
 						//header("Location: index.php");
 					}
 				}
@@ -59,6 +64,12 @@
 				$manager->closeConnection();
 				?>
 			</div>
+			<form method=post action="checkout.php">
+				<input type="submit" value="Checkout">
+			</form>
+			<form method=post action="index.php">
+				<input type="submit" value="Discard cart">
+			</form>
 	  </div>
 	</body>
 

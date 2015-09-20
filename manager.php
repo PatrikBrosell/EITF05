@@ -138,9 +138,8 @@ class Manager {
 		}
 	}
 
-	public function printProduct($id, $nbr){
+	public function printProductCart($id, $nbr){
 		$sqlGetProduct = "select * from products where id = ?";
-		var_dump($sqlGetProduct);
 		$resultSet = $this->executeQuery($sqlGetProduct, array($id));
 		for($i = 0; $i < count($resultSet); $i++){
 			$product = array();
@@ -173,8 +172,7 @@ class Manager {
 					<form method=post action="addtocart.php">
 						<input type="hidden" name="productID" value="'.$product[4].'">
 						<input type="submit" value="Remove from cart">
-						<input type="number" name="productCount" value="1" min="1" max="'.$count.'">
-						to cart
+						<input type="number" name="productCount" value="1" min="1" max="'.$nbr.'">
 					</form> 
 				</div>
 			</div>';
@@ -189,9 +187,10 @@ class Manager {
 	}
 
 	public function buyProduct($id, $count){
-		$sqlBuyProduct = "UPDATE products SET nbrInStore=((SELECT nbrInStore from products where id=?)-?) WHERE id=?;";
+		//$sqlBuyProduct = "UPDATE products SET nbrInStore=((SELECT nbrInStore from products where id=?)-?) WHERE id=?;";
+		$sqlBuyProduct = "UPDATE products SET nbrInStore=nbrInStore-? WHERE id=?;";
 
-		return $result = $this->executeUpdate($sqlBuyProduct, array($id, $count, $id)); 
+		return $result = $this->executeUpdate($sqlBuyProduct, array($count, $id)); 
 	}
 
 
