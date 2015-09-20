@@ -86,7 +86,17 @@ class Manager {
 	public function registerUser($userName, $pw, $homeAddress){
 		//IF(database !has $userName) THEN database.add(userName, hashPassword(pw), homeAddress) RETURN true
 		//ELSE RETURN false
+		$sqlFindUser = "SELECT username FROM users WHERE username = ?";
+		$resultSet = $this->executeQuery($sqlFindUser, array($userName));
+		if(count($resultSet) == 0){
+			$sqlRegister = "INSERT INTO users VALUES(?,?,?)";
+			$hashedPW = $this->hashPassword($pw);
+			$resultSet = $this->executeUpdate($sqlRegister, array($userName, $hashedPW, $homeAddress));
+			return true;
+		}
+		return false;
 	}
+
 
 	/*
 	 * Returns an array of all products in the database
