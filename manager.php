@@ -51,16 +51,28 @@ class Manager {
 	 */
 	public function loginUser($userName, $pw){
 		$sqlLoginUser = "select password from users where username = ?";
+		$sqlNbrFailedLogins = "select nbrFailedLogin from users where username = ?";
+		$sqlFailedLoginUpdate = "UPDATE users SET nbrFailedLogin=nbrFailedLogin+1 WHERE username=?";
+		$sqlResetLoginAttempts = "UPDATE users SET nbrFailedLogin=0 WHERE username=?";
+
 		$hashedPW = $this->hashPassword($pw);
 		$resultSet = $this->executeQuery($sqlLoginUser, array($userName));
 		if(count($resultSet) == 1){
 			if(password_verify($pw, $resultSet[0]['password'])){
 			//if($resultSet[0]['password'] == $hashedPW){
 				//fix login php session stuff? Or handle that in login.php?
+				$resultSet = $this->executeQuery($sqlNbrFailedLogins, array($userName));
+				if(count($resultSet) == 1){
+					if($resultSet[0]['nbrFailedLogin'] > 5){
+						return false;
+					}
+				}
+				$resultSet = $this->executeUpdate($sqlResetLoginAttempts, array($userName));
 				return true;
 			}
 			else{
-				//generate fail login html content? Or handle that in login.php?
+				//update failed login
+				$resultSet = $this->executeUpdate($sqlFailedLoginUpdate, array($userName));
 				return false;
 			}
 		}
@@ -87,9 +99,9 @@ class Manager {
 		$sqlFindUser = "SELECT username FROM users WHERE username = ?";
 		$resultSet = $this->executeQuery($sqlFindUser, array($userName));
 		if(count($resultSet) == 0){
-			$sqlRegister = "INSERT INTO users VALUES(?,?,?)";
+			$sqlRegister = "INSERT INTO users VALUES(?,?,?,?)";
 			$hashedPW = $this->hashPassword($pw);
-			$resultSet = $this->executeUpdate($sqlRegister, array($userName, $hashedPW, $homeAddress));
+			$resultSet = $this->executeUpdate($sqlRegister, array($userName, $hashedPW, $homeAddress, 0));
 			return true;
 		}
 		return false;
