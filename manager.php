@@ -45,7 +45,8 @@ class Manager {
 	 */
 	public function hashPassword($pw){
 		//hash it
-		return $pw;
+		//return $pw;
+		return password_hash($pw, PASSWORD_DEFAULT);
 	}
 
 	/*
@@ -57,7 +58,8 @@ class Manager {
 		$hashedPW = $this->hashPassword($pw);
 		$resultSet = $this->executeQuery($sqlLoginUser, array($userName));
 		if(count($resultSet) == 1){
-			if($resultSet[0]['password'] == $hashedPW){
+			if(password_verify($pw, $resultSet[0]['password'])){
+			//if($resultSet[0]['password'] == $hashedPW){
 				//fix login php session stuff? Or handle that in login.php?
 				return true;
 			}
@@ -214,6 +216,14 @@ class Manager {
 	       }
 	   }
 	   return null;
+	}
+
+	/*What else to do here???????*/
+	//escapeshellarg();
+	//escapeshellcmd();
+	function cleanUserInput($input){
+		$string = strip_tags($input);
+		return $string;
 	}
 
 
