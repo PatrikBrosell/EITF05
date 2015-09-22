@@ -78,7 +78,7 @@
 			<form method=post action="checkout.php">
 				<input type="submit" value="Checkout">
 			</form>
-			<form method=post action="index.php">
+			<form method=post action="discardCart.php">
 				<input type="submit" value="Discard cart">
 			</form>
 	  </div>
