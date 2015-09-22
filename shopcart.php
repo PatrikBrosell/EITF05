@@ -1,6 +1,13 @@
 <?php
 	require_once('manager.php');
 	session_start();
+	if(isset($_SESSION['idToRemove'])){
+		$idToRemove = $_SESSION['idToRemove'];
+	}
+	else{
+		$idToRemove = "";
+	}
+
 	$manager = $_SESSION['manager'];
 	$manager->openConnection();
 	if (!$manager->isConnected()) {
@@ -54,13 +61,17 @@
 					for($i = 0; $i < count($_SESSION['cartArray']); $i++){
 						$id = $_SESSION['cartArray'][$i][0];
 						$nbr = $_SESSION['cartArray'][$i][1];
-						$manager->printProductCart($id, $nbr);
+						if($idToRemove != $id){
+							$manager->printProductCart($id, $nbr);							
+						}
 						//header("Location: index.php");
 					}
+					//unset($_SESSION['cartArray'][$idToRemove]);
 				}
 				else{
 					header("Location: index.php");
 				}
+				//var_dump($_SESSION['cartArray']);
 				$manager->closeConnection();
 				?>
 			</div>

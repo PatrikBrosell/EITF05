@@ -53,18 +53,16 @@
 				<h2>Receipt</h2>
 				<p>These are the things you bought</p>
 				<?php
-				var_dump($_SESSION['cartArray']);
-				if(isset($_SESSION['cartArray'])){
-					for($i = 0; $i < count($_SESSION['cartArray']); $i++){
-						$id = $_SESSION['cartArray'][$i][0];
-						$nbr = $_SESSION['cartArray'][$i][1];
+				if(isset($_SESSION['receiptArray'])){
+					for($i = 0; $i < count($_SESSION['receiptArray']); $i++){
+						$id = $_SESSION['receiptArray'][$i][0];
+						$nbr = $_SESSION['receiptArray'][$i][1];
 						$manager->printProductCart($id, $nbr);
-						//header("Location: index.php");
 					}
-					$_SESSION['cartArray'] = null;
+					$_SESSION['receiptArray'] = null;
 				}
 				else{
-					//header("Location: index.php");
+					header("Location: index.php");
 				}
 				$manager->closeConnection();
 				?>

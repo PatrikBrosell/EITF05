@@ -179,8 +179,8 @@ class Manager {
 
 				<!-- form is also php generated from database data -->
 				<div class="text-box green">
-					<form method=post action="addtocart.php">
-						<input type="hidden" name="productID" value="'.$product[4].'">
+					<form method=post action="removeFromCart.php">
+						<input type="hidden" name="productIDRemoveFromCart" value="'.$product[4].'">
 						<input type="submit" value="Remove from cart">
 						<input type="number" name="productCount" value="1" min="1" max="'.$nbr.'">
 					</form> 
@@ -193,6 +193,10 @@ class Manager {
 		if(!isset($_SESSION['cartArray'])){
 			$_SESSION['cartArray'] = array();
 		}
+		if(in_array($id, $_SESSION['cartArray'])){
+			//echo $_SESSION['cartArray'][0];
+			//$_SESSION['cartArray'][$id][0] = $_SESSION['cartArray'][$id][0]+$count;
+		}
 		array_push($_SESSION['cartArray'], array($id, $count));
 	}
 
@@ -203,8 +207,14 @@ class Manager {
 		return $result = $this->executeUpdate($sqlBuyProduct, array($count, $id)); 
 	}
 
-
-
+	function searchForId($id, $array) {
+	   foreach ($array as $key => $val) {
+	       if ($val['uid'] === $id) {
+	           return $key;
+	       }
+	   }
+	   return null;
+	}
 
 
 
