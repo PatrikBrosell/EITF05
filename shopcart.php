@@ -76,6 +76,7 @@
 				?>
 			</div>
 			<form method=post action="checkout.php">
+				<!-- <input type="hidden" name="token" value=<""> -->
 				<input type="submit" value="Checkout">
 			</form>
 			<form method=post action="discardCart.php">

@@ -33,10 +33,6 @@ class Manager {
 		$this->db = $array[1];
 		$this->dbUserName = $array[2];
 		$this->dbPassword = $array[3];
-
-		//$this->loginUserName = $loginUserName;
-		//$this->loginPassword = $loginPassword;
-		
 	}
 
 	/*
@@ -195,17 +191,17 @@ class Manager {
 		if(!isset($_SESSION['cartArray'])){
 			$_SESSION['cartArray'] = array();
 		}
-		if(in_array($id, $_SESSION['cartArray'])){
+		if(in_array($id, $_SESSION['cartArray'])){ //duplicates in product list.. not important
 			//echo $_SESSION['cartArray'][0];
 			//$_SESSION['cartArray'][$id][0] = $_SESSION['cartArray'][$id][0]+$count;
 		}
 		array_push($_SESSION['cartArray'], array($id, $count));
 	}
 
+	//TODO: transaction, make sure product quantity does not go below 0.
 	public function buyProduct($id, $count){
 		//$sqlBuyProduct = "UPDATE products SET nbrInStore=((SELECT nbrInStore from products where id=?)-?) WHERE id=?;";
 		$sqlBuyProduct = "UPDATE products SET nbrInStore=nbrInStore-? WHERE id=?;";
-
 		return $result = $this->executeUpdate($sqlBuyProduct, array($count, $id)); 
 	}
 
@@ -218,11 +214,10 @@ class Manager {
 	   return null;
 	}
 
-	/*What else to do here???????*/
-	//escapeshellarg();
-	//escapeshellcmd();
 	function cleanUserInput($input){
 		$string = strip_tags($input);
+		//$string = escapeshellarg($string); //??
+		//$string = escapeshellcmd($string); //?? weird characters... how to solve!?!?
 		return $string;
 	}
 

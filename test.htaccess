@@ -1,1 +1,6 @@
 DirectoryIndex index.php
+
+<Files "database_connection_data.php">
+Order allow,deny
+Deny from all
+</Files>

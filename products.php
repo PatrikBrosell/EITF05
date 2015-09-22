@@ -60,47 +60,9 @@ if (!$manager->isConnected()) {
 
 	  <div class="content-window">
 			<div class="center">
-				<!-- product boxes should be generated with php code -->
 				<?php
 				$manager->printProducts(); //prints the proper HTML
-				/*$resultSet = $manager->getProductsAll();
-				for($i = 0; $i < count($resultSet); $i++){
-					$product = array();
-					array_push($product, $resultSet[$i]['name']);
-					array_push($product, $resultSet[$i]['description']);
-					array_push($product, $resultSet[$i]['price']);
-					array_push($product, $resultSet[$i]['nbrInStore']);
-					echo '
-					<div class="product-box">
-						<h3 class="line-title">'.$product[0].'</h3>
-
-						<div class="text-box blue">
-							<p class="line-title">Description:</p>
-							<p class="description">'.$product[1].'</p>
-						</div>
-
-						<div class="text-box green">
-							<p class="line-title">Price:</p>
-							<p>'.$product[2].'SEK</p>
-						</div>
-						
-						<div class="text-box yellow">
-							<p class = "line-title">Nbr in store:</p>
-							<p>'.$product[3].'</p>
-						</div>
-
-						<!-- form is also php generated from database data -->
-						<div class="text-box green">
-							<form action="addtocart.php">
-								<input type="submit" value="Add">
-								<input type="number" name="quantity" value="1" min="1" max="'.$product[3].'">
-								to cart
-							</form> 
-						</div>
-					</div>';
-				}*/
 				$manager->closeConnection();
-				//$_SESSION['manager'] = null;
 				?>
 			</div>
 	  </div>

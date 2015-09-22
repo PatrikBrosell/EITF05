@@ -25,6 +25,9 @@
 	$repeatPassword = $_REQUEST['repeatPassword'];
 	$registerHomeAddress = $_REQUEST['registerHomeAddress'];
 
+	$registerUserName = $manager->cleanUserInput($registerUserName);
+	$registerHomeAddress = $manager->cleanUserInput($registerHomeAddress);
+
 
 	if($registerPassword == $repeatPassword){
 		$result = $manager->registerUser($registerUserName, $registerPassword, $registerHomeAddress);

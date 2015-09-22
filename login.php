@@ -23,8 +23,11 @@
 	session_start(); //Time to start a session now
 	$_SESSION['manager'] = $manager; //Let's save our manager object
 
+	$loginUserName = $manager->cleanUserInput($loginUserName);
+
 	if($manager->loginUser($loginUserName, $loginPassword)){ //now let's see if we can actually login
 		$_SESSION['loginUserName'] = $loginUserName; //login = success, so let's store our username to display on pages
+		//$_SESSION['token'] = time().$loginUserName;
 		echo "login successful";
 		header("Location: products.php");
 	}
