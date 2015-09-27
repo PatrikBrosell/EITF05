@@ -1,0 +1,57 @@
+To get the certificate working:
+
+http://forum.wampserver.com/read.php?2,32986
+
+Open an eleveated command prompt
+
+cd C:\wamp\bin\apache\apache2.4.9\conf
+
+type: set OPENSSL_CONF=C:\wamp\bin\apache\apache2.4.9\conf\openssl.cnf
+
+openssl genrsa -des3 -out server.key 1024
+
+
+Creating the key , when asked for password i entered test
+
+c:\wamp\bin\apache\apache2.4.9\bin>openssl genrsa -des3 -out server.key 1024
+Loading 'screen' into random state - done
+Generating RSA private key, 1024 bit long modulus
+.....................................++++++
+......++++++
+e is 65537 (0x10001)
+Enter pass phrase for server.key:
+Verifying - Enter pass phrase for server.key:
+
+c:\wamp\bin\apache\apache2.4.9\bin>
+
+c:\wamp\bin\apache\apache2.4.9\bin>copy server.key server.key.org
+        1 file(s) copied.
+
+c:\wamp\bin\apache\apache2.4.9\bin>openssl rsa -in server.key.org -out server.key
+Enter pass phrase for server.key.org:
+writing RSA key
+
+c:\wamp\bin\apache\apache2.4.9\bin>
+
+Create a self-signed Certificate (X509 structure) with the RSA key you just created.
+
+openssl req -new -x509 -nodes -sha1 -days 365 -key server.key -out server.crt
+
+c:\wamp\bin\apache\apache2.4.9\bin>openssl req -new -x509 -nodes -sha1 -days 365 -key server.key -out server.crt
+Loading 'screen' into random state - done
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [AU]:SE
+State or Province Name (full name) [Some-State]:Skane
+Locality Name (eg, city) []:Lund
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:EITF05 2015 Group 12
+Organizational Unit Name (eg, section) []:Group 12
+Common Name (e.g. server FQDN or YOUR name) []:localhost
+Email Address []:admin@localhost
+
+c:\wamp\bin\apache\apache2.4.9\bin>
