@@ -126,6 +126,7 @@ class Manager {
 			array_push($product, $resultSet[$i]['price']);
 			array_push($product, $resultSet[$i]['nbrInStore']);
 			array_push($product, $resultSet[$i]['id']);
+			array_push($product, $resultSet[$i]['usercomment']);
 			echo '
 			<div class="product-box">
 				<h3 class="line-title">'.$product[0].'</h3>
@@ -145,6 +146,13 @@ class Manager {
 					<p>'.$product[3].'</p>
 				</div>
 
+				<div class="text-box yellow">
+					<p class = "line-title">User Comment:</p>
+					<p>'.$product[5].'</p>
+				</div>
+				
+				
+				
 				<!-- form is also php generated from database data -->
 				<div class="text-box green">
 					<form method=post action="addtocart.php">

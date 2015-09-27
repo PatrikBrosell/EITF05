@@ -2,10 +2,10 @@
 -- version 4.1.14
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: Sep 22, 2015 at 03:34 PM
--- Server version: 5.6.17
--- PHP Version: 5.5.12
+-- Värd: 127.0.0.1
+-- Tid vid skapande: 27 sep 2015 kl 14:55
+-- Serverversion: 5.6.17
+-- PHP-version: 5.5.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,15 +17,16 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `webshop12database`
+-- Databas: `webshop12database`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `categories`
+-- Tabellstruktur `categories`
 --
 
+DROP TABLE IF EXISTS `categories`;
 CREATE TABLE IF NOT EXISTS `categories` (
   `name` varchar(30) NOT NULL,
   PRIMARY KEY (`name`)
@@ -34,9 +35,10 @@ CREATE TABLE IF NOT EXISTS `categories` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `products`
+-- Tabellstruktur `products`
 --
 
+DROP TABLE IF EXISTS `products`;
 CREATE TABLE IF NOT EXISTS `products` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
@@ -44,26 +46,28 @@ CREATE TABLE IF NOT EXISTS `products` (
   `nbrInStore` int(10) NOT NULL,
   `imageURL` varchar(200) NOT NULL,
   `price` int(10) NOT NULL,
+  `usercomment` varchar(4096) NOT NULL DEFAULT 'No user comments available',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
--- Dumping data for table `products`
+-- Dumpning av Data i tabell `products`
 --
 
-INSERT INTO `products` (`id`, `name`, `description`, `nbrInStore`, `imageURL`, `price`) VALUES
-(1, 'Pizza', 'This tasty piece of food can be eaten.', 20, '', 75),
-(2, 'Computer', 'A gaming rig of never before seen powerful components.', 2, '', 10000),
-(3, 'Pen', 'A pen for drawing. Works forever.', 5323, '', 10),
-(4, 'Cookie', 'A krusty cookie.', 21, '-', 16),
-(5, 'Thing', 'A mysterious object.', 242, '-', 199);
+INSERT INTO `products` (`id`, `name`, `description`, `nbrInStore`, `imageURL`, `price`, `usercomment`) VALUES
+(1, 'Pizza', 'This tasty piece of food can be eaten.', 16, '', 75, 'No user comments available'),
+(2, 'Computer', 'A gaming rig of never before seen powerful components.', 2, '', 10000, 'No user comments available'),
+(3, 'Pen', 'A pen for drawing. Works forever.', 5320, '', 10, 'No user comments available'),
+(4, 'Cookie', 'A krusty cookie.', 21, '-', 16, 'No user comments available'),
+(5, 'Thing', 'A mysterious object.', 242, '-', 199, 'No user comments available');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Tabellstruktur `users`
 --
 
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `userName` varchar(15) NOT NULL,
   `password` varchar(255) NOT NULL,
@@ -73,12 +77,13 @@ CREATE TABLE IF NOT EXISTS `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `users`
+-- Dumpning av Data i tabell `users`
 --
 
 INSERT INTO `users` (`userName`, `password`, `homeAddress`, `nbrFailedLogin`) VALUES
 ('admin', '$2y$10$yoPo9hfwtMDbrOlqLMiKcOiEHgMztYbL1u0opX7yzdPnavGs3p9hK', 'Lund', 0),
 ('hash', '$2y$10$xYTxN1do1h8XqOGWZ8OCje8.PxssiCf.3Ly6x5f3lcEalB5hgtzYS', 'Lund', 0),
+('kalle', '$2y$10$5JfKIOsDk2.rJlCDqahjheqMBal8QxeCgMKUfUrN2sUXMh/BUW7ZK', 'Home', 0),
 ('minh', '$2y$10$n3WkQUanA55.s4mTUaJ3SOQvPhenG.I0JVmC.Z89eQT.PMk0HssPa', 'Helsingborg', 0),
 ('test', '$2y$10$KXIwQf6S85v0kh6XFKCGU.5QYHVz5kHkPN/ZZRlTwgvrE4q4iyPzm', 'Lund', 0),
 ('test3', '$2y$10$dIyFz0rM6p17rM.Kc/r2OuUCPaThQab8mlMX3wU7z2XLdw15vzvIa', 'Lund', 0),
