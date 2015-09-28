@@ -1,0 +1,19 @@
+Rename and overwrite login.php with hackableLogin.php
+Rename and overwrite manager with hackableManager.php
+
+hackableManager.php has been changed to use md5 instead of bcrypt.
+login.php has been changed to run a sql query which we can perform an SQL injection on.
+
+How to login:
+
+Username should be a username that exists followed by '--<space>. E.g. test3'--<space> [1]
+
+"From a “-- ” sequence to the end of the line. In MySQL, the “-- ” (double-dash)
+comment style requires the second dash to be followed by at least one whitespace
+or control character (such as a space, tab, newline, and so on)."
+
+Password doesnt matter. :-)
+
+
+[1]
+https://dev.mysql.com/doc/refman/5.5/en/comments.html
