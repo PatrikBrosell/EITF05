@@ -51,6 +51,7 @@
 				echo "login successful";
 				header("Location: products.php");
 			}
+		}
 	{
 	else {
 		echo 'could not login';
