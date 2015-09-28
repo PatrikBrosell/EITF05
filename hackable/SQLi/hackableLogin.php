@@ -38,7 +38,7 @@
 	// Om $loginUserName ar admin'-- sa kommer resten av reuqey:n kommer bli kommentar.
 	// Vi behover da inte kanna till korrekt losenord. Username maste dock finnas.
 	$hashedPW = md5($loginPassword);
-	$result = mysql_query("SELECT * FROM `users` WHERE `userName`='$loginUserName' AND `password`='$hashedPW");
+	$result = mysql_query("SELECT * FROM `users` WHERE `userName`='$loginUserName' AND `password`='$hashedPW'");
 
 	// mysql_query returns false on error.
 	if ($result) {
