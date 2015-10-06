@@ -8,6 +8,22 @@
 		exit(); //Kill if we cannot connect to the database
 	}
 
+	if(isset($_REQUEST['hiddenShopcart'])){
+		$token = $_REQUEST['hiddenShopcart'];
+	}
+	else{
+		header("Location: shopcart.php");
+		exit();
+	}
+	
+	echo "FORM: ".$token;
+	echo "SESSION: ".$_SESSION['hiddenShopcart'];
+
+	if(!($manager->checkFormToken('hiddenShopcart', $token))){
+		header("Location: shopcart.php");
+		exit();
+	}
+
 	if(isset($_SESSION['cartArray'])){
 		for($i = 0; $i < count($_SESSION['cartArray']); $i++){
 			$id = $_SESSION['cartArray'][$i][0];

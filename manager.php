@@ -10,15 +10,7 @@ class Manager {
 	private $db;
 	private $dbUserName;
 	private $dbPassword;
-
 	private $dbConnection;
-	private $dbResult;
-
-	/*
-	 * User Login variables
-	 */
-	private $loginUserName; 
-	private $loginPassword; //maybe not even store this?
 
 	//Add SQL statements here
 
@@ -131,37 +123,24 @@ class Manager {
 			<div class="product-box">
 				<h3 class="line-title">'.$product[0].'</h3>
 
-				<div class="text-box blue">
-					<p class="line-title">Description:</p>
-					<p class="description">'.$product[1].'</p>
-				</div>
+				<p class="line-title">Description:</p>
+				<p class="description">'.$product[1].'</p>
 
-				<div class="text-box green">
-					<p class="line-title">Price:</p>
-					<p>'.$product[2].'SEK</p>
-				</div>
-				
-				<div class="text-box yellow">
-					<p class = "line-title">Nbr in store:</p>
-					<p>'.$product[3].'</p>
-				</div>
+				<p class="line-title">Price:</p>
+				<p>'.$product[2].'SEK</p>
+			
+				<p class = "line-title">Nbr in store:</p>
+				<p>'.$product[3].'</p>
 
-				<div class="text-box yellow">
-					<p class = "line-title">User Comment:</p>
-					<p>'.$product[5].'</p>
-				</div>
-				
-				
-				
-				<!-- form is also php generated from database data -->
-				<div class="text-box green">
-					<form method=post action="addtocart.php">
-						<input type="hidden" name="productID" value="'.$product[4].'">
-						<input type="submit" value="Add">
-						<input type="number" name="productCount" value="1" min="1" max="'.$product[3].'">
-						to cart
-					</form> 
-				</div>
+				<p class = "line-title">User Comment:</p>
+				<p>'.$product[5].'</p>
+			
+				<form method=post action="addtocart.php">
+					<input type="hidden" name="productID" value="'.$product[4].'">
+					<input type="submit" value="Add">
+					<input type="number" name="productCount" value="1" min="1" max="'.$product[3].'">
+					to cart
+				</form> 
 			</div>';
 		}
 	}
@@ -180,29 +159,14 @@ class Manager {
 			<div class="product-box">
 				<h3 class="line-title">'.$product[0].'</h3>
 
-				<div class="text-box blue">
-					<p class="line-title">Description:</p>
-					<p class="description">'.$product[1].'</p>
-				</div>
+				<p class="line-title">Description:</p>
+				<p class="description">'.$product[1].'</p>
 
-				<div class="text-box green">
-					<p class="line-title">Price:</p>
-					<p>'.$product[2]*$nbr.'SEK, ('.$product[2].'SEK/unit)</p>
-				</div>
-				
-				<div class="text-box yellow">
-					<p class = "line-title">Nbr in cart:</p>
-					<p>'.$nbr.'</p>
-				</div>
-
-				<!-- form is also php generated from database data -->
-				<div class="text-box green">
-					<form method=post action="removeFromCart.php">
-						<input type="hidden" name="productIDRemoveFromCart" value="'.$product[4].'">
-						<input type="submit" value="Remove from cart">
-						<input type="number" name="productCount" value="1" min="1" max="'.$nbr.'">
-					</form> 
-				</div>
+				<p class="line-title">Price:</p>
+				<p>'.$product[2]*$nbr.'SEK, ('.$product[2].'SEK/unit)</p>
+			
+				<p class = "line-title">Nbr in cart:</p>
+				<p>'.$nbr.'</p>
 			</div>';
 		}
 	}
@@ -241,24 +205,49 @@ class Manager {
 		return $string;
 	}
 
+	function addFormToken($where){
+		$token = $this->hashPassword(time());
+		$_SESSION[$where] = $token;
+		return $token;
+	}
 
+	function checkFormToken($where, $token){
+		if(isset($_SESSION[$where])){
+			if($_SESSION[$where] == $token){
+				$_SESSION[$where] = null;
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
+		else{
+			return false;
+		}
+	}
 
-	//----------------------------------------------------------------------------------
-	// EVERYTHING BELOW IS USED TO CONNECT TO AND COMMUNICATE WITH THE DATABASE
-	// för tillfället är all taget från ett tidigare php-projekt jag gjorde.
-	// Vet inte än om vi kan använda detta rakt av eller om det måste justeras.
-	//----------------------------------------------------------------------------------
-	
-	//TODO: all variable names need to be renamed to fit with the ones I have assigned at the top
-	// of this document
+	function addComment($str){
+		$sqlAddComment = "INSERT INTO guestbook VALUES(null, ?)";
+		$resultSet = $this->executeUpdate($sqlAddComment, array($str));
+	}
 
-		/** 
+	function readComments(){
+		$sqlReadComments = "SELECT comment FROM guestbook";
+		$resultSet = $this->executeQuery($sqlReadComments, null);
+
+		for($i = 0; $i < count($resultSet); $i++){
+			//$comments = array();
+			//array_push($comments, $resultSet[$i]['text']);
+			echo '
+				<div class="product-box">
+					'.$resultSet[$i]['comment'].'
+				</div>';
+		}
+	}
+
+	/** 
 	 * Opens a connection to the database, using the earlier specified user
 	 * name and password.
-	 *
-	 * @return true if the connection succeeded, false if the connection 
-	 * couldn't be opened or the supplied user name and password were not 
-	 * recognized.
 	 */
 	public function openConnection() {
 		try {
@@ -284,8 +273,6 @@ class Manager {
 
 	/**
 	 * Checks if the connection to the database has been established.
-	 *
-	 * @return true if the connection has been established
 	 */
 	public function isConnected() {
 		return isset($this->dbConnection);

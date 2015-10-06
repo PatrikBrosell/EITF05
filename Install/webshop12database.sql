@@ -2,10 +2,10 @@
 -- version 4.1.14
 -- http://www.phpmyadmin.net
 --
--- Värd: 127.0.0.1
--- Tid vid skapande: 27 sep 2015 kl 14:55
--- Serverversion: 5.6.17
--- PHP-version: 5.5.12
+-- Host: 127.0.0.1
+-- Generation Time: Oct 06, 2015 at 03:12 PM
+-- Server version: 5.6.17
+-- PHP Version: 5.5.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,16 +17,15 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Databas: `webshop12database`
+-- Database: `webshop12database`
 --
 
 -- --------------------------------------------------------
 
 --
--- Tabellstruktur `categories`
+-- Table structure for table `categories`
 --
 
-DROP TABLE IF EXISTS `categories`;
 CREATE TABLE IF NOT EXISTS `categories` (
   `name` varchar(30) NOT NULL,
   PRIMARY KEY (`name`)
@@ -35,10 +34,33 @@ CREATE TABLE IF NOT EXISTS `categories` (
 -- --------------------------------------------------------
 
 --
--- Tabellstruktur `products`
+-- Table structure for table `guestbook`
 --
 
-DROP TABLE IF EXISTS `products`;
+CREATE TABLE IF NOT EXISTS `guestbook` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `comment` varchar(500) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+
+--
+-- Dumping data for table `guestbook`
+--
+
+INSERT INTO `guestbook` (`id`, `comment`) VALUES
+(1, 'Hallaj'),
+(2, 'Hej jag Ã¤r i kommentarerna.'),
+(3, 'Detta funkar'),
+(4, 'uguguege'),
+(5, 'Hej'),
+(7, 'uh');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `products`
+--
+
 CREATE TABLE IF NOT EXISTS `products` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
@@ -51,23 +73,22 @@ CREATE TABLE IF NOT EXISTS `products` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
--- Dumpning av Data i tabell `products`
+-- Dumping data for table `products`
 --
 
 INSERT INTO `products` (`id`, `name`, `description`, `nbrInStore`, `imageURL`, `price`, `usercomment`) VALUES
-(1, 'Pizza', 'This tasty piece of food can be eaten.', 16, '', 75, 'No user comments available'),
+(1, 'Pizza', 'This tasty piece of food can be eaten.', 15, '', 75, 'No user comments available'),
 (2, 'Computer', 'A gaming rig of never before seen powerful components.', 2, '', 10000, 'No user comments available'),
-(3, 'Pen', 'A pen for drawing. Works forever.', 5320, '', 10, 'No user comments available'),
+(3, 'Pen', 'A pen for drawing. Works forever.', 5298, '', 10, 'No user comments available'),
 (4, 'Cookie', 'A krusty cookie.', 21, '-', 16, 'No user comments available'),
 (5, 'Thing', 'A mysterious object.', 242, '-', 199, 'No user comments available');
 
 -- --------------------------------------------------------
 
 --
--- Tabellstruktur `users`
+-- Table structure for table `users`
 --
 
-DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `userName` varchar(15) NOT NULL,
   `password` varchar(255) NOT NULL,
@@ -77,11 +98,12 @@ CREATE TABLE IF NOT EXISTS `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumpning av Data i tabell `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`userName`, `password`, `homeAddress`, `nbrFailedLogin`) VALUES
 ('admin', '$2y$10$yoPo9hfwtMDbrOlqLMiKcOiEHgMztYbL1u0opX7yzdPnavGs3p9hK', 'Lund', 0),
+('adrr', '$2y$10$QyClOzXkgi/tmlwQbkO6qu214uXTtJ5v8TlLA0p9TM.1X1tHqdjxO', 'adrr', 0),
 ('hash', '$2y$10$xYTxN1do1h8XqOGWZ8OCje8.PxssiCf.3Ly6x5f3lcEalB5hgtzYS', 'Lund', 0),
 ('kalle', '$2y$10$5JfKIOsDk2.rJlCDqahjheqMBal8QxeCgMKUfUrN2sUXMh/BUW7ZK', 'Home', 0),
 ('minh', '$2y$10$n3WkQUanA55.s4mTUaJ3SOQvPhenG.I0JVmC.Z89eQT.PMk0HssPa', 'Helsingborg', 0),

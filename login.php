@@ -35,6 +35,5 @@
 		echo "could not log in";
 		header("Location: index.php");
 	}
-	//$id = $_REQUEST['palletId'];
 	$manager->closeConnection(); //close connection to database, since we're done with that for now
 ?>

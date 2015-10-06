@@ -77,6 +77,7 @@
 			</div>
 			<form method=post action="checkout.php">
 				<!-- <input type="hidden" name="token" value=<""> -->
+				<input type="hidden" name="hiddenShopcart" value=<?php echo $manager->addFormToken("hiddenShopcart");?>>
 				<input type="submit" value="Checkout">
 			</form>
 			<form method=post action="discardCart.php">
