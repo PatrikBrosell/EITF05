@@ -12,16 +12,16 @@
 		$token = $_REQUEST['hiddenShopcart'];
 	}
 	else{
-		header("Location: shopcart.php");
-		exit();
+		header("Location: shopcart.php");//remove to sabotage!!!!
+		exit();//remove to sabotage!!!!
 	}
 	
 	echo "FORM: ".$token;
 	echo "SESSION: ".$_SESSION['hiddenShopcart'];
 
 	if(!($manager->checkFormToken('hiddenShopcart', $token))){
-		header("Location: shopcart.php");
-		exit();
+		header("Location: shopcart.php");//remove to sabbotage!!!!
+		exit();//remove to sabotage!!!!
 	}
 
 	if(isset($_SESSION['cartArray'])){
