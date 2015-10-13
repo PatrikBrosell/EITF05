@@ -201,8 +201,9 @@ class Manager {
 	function cleanUserInput($input){
 		$string = strip_tags($input);
 		//$string = escapeshellarg($string); //??
-		//$string = escapeshellcmd($string); //?? weird characters... how to solve!?!?
-		return $string;
+		//$string = escapeshellcmd($string); //??
+		return $string; //GOOD
+		//return $input; //BAD
 	}
 
 	function addFormToken($where){
@@ -245,35 +246,24 @@ class Manager {
 		}
 	}
 
-	/** 
-	 * Opens a connection to the database, using the earlier specified user
-	 * name and password.
-	 */
 	public function openConnection() {
 		try {
-			$this->dbConnection = new PDO("mysql:host=$this->dbHost;dbname=$this->db", 
-					$this->dbUserName,  $this->dbPassword);
+			$this->dbConnection = new PDO("mysql:host=$this->dbHost;dbname=$this->db", $this->dbUserName,  $this->dbPassword);
 			$this->dbConnection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		} catch (PDOException $e) {
-			$error = "Connection error: " . $e->getMessage();
-			print $error . "<p>";
+			$error = $e->getMessage();
+			print $error;
 			unset($this->conn);
 			return false;
 		}
 		return true;
 	}
 	
-	/**
-	 * Closes the connection to the database.
-	 */
 	public function closeConnection() {
 		$this->dbConnection = null;
 		unset($this->dbConnection);
 	}
 
-	/**
-	 * Checks if the connection to the database has been established.
-	 */
 	public function isConnected() {
 		return isset($this->dbConnection);
 	}
@@ -284,7 +274,7 @@ class Manager {
 			$stmt->execute($param);
 			$result = $stmt->fetchAll();
 		} catch (PDOException $e) {
-			$error = "*** Internal error: " . $e->getMessage() . "<p>" . $query;
+			$error = $e->getMessage() . $query;
 			die($error);
 		}
 		return $result;
@@ -296,7 +286,7 @@ class Manager {
 			$stmt->execute($param);
 			$result = $stmt->rowCount();
 		} catch (PDOException $e) {
-			$error = "*** Internal error: " . $e->getMessage() . "<p>" . $query;
+			$error = $e->getMessage() . $query;
 			die($error);
 		}
 		return $result;
