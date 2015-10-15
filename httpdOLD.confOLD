@@ -151,7 +151,7 @@ LoadModule negotiation_module modules/mod_negotiation.so
 #LoadModule remoteip_module modules/mod_remoteip.so
 #LoadModule request_module modules/mod_request.so
 #LoadModule reqtimeout_module modules/mod_reqtimeout.so
-LoadModule rewrite_module modules/mod_rewrite.so
+#LoadModule rewrite_module modules/mod_rewrite.so
 #LoadModule sed_module modules/mod_sed.so
 #LoadModule session_module modules/mod_session.so
 #LoadModule session_cookie_module modules/mod_session_cookie.so
@@ -164,7 +164,7 @@ LoadModule setenvif_module modules/mod_setenvif.so
 #LoadModule socache_memcache_module modules/mod_socache_memcache.so
 #LoadModule socache_shmcb_module modules/mod_socache_shmcb.so
 #LoadModule speling_module modules/mod_speling.so
-LoadModule ssl_module modules/mod_ssl.so
+#LoadModule ssl_module modules/mod_ssl.so
 #LoadModule status_module modules/mod_status.so
 #LoadModule substitute_module modules/mod_substitute.so
 #LoadModule unique_id_module modules/mod_unique_id.so
@@ -177,14 +177,6 @@ LoadModule vhost_alias_module modules/mod_vhost_alias.so
 
 LoadModule php5_module "c:/wamp/bin/php/php5.5.12/php5apache2_4.dll"
 #PHPIniDir c:/wamp/bin/php/php5.5.12
-
-RewriteEngine On
-# This will enable the Rewrite capabilities
-RewriteCond %{HTTPS} !=on
-# This checks to make sure the connection is not already HTTPS
-RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R,L]
-# This rule will redirect users from their original location, to the same location but using HTTPS.
-# Found information about HTTPS redirect at: https://wiki.apache.org/httpd/RewriteHTTPToHTTPS
 
 <IfModule unixd_module>
 #
@@ -284,7 +276,7 @@ DocumentRoot "c:/wamp/www/"
     #
 
 #   onlineoffline tag - don't remove
-    Require all granted
+    Require local
 </Directory>
 
 #
@@ -535,7 +527,7 @@ Include conf/extra/proxy-html.conf
 </IfModule>
 
 # Secure (SSL/TLS) connections
-
+#Include conf/extra/httpd-ssl.conf
 #
 # Note: The following must must be present to support
 #       starting without SSL on platforms with no /dev/random equivalent
@@ -545,7 +537,6 @@ Include conf/extra/proxy-html.conf
 SSLRandomSeed startup builtin
 SSLRandomSeed connect builtin
 </IfModule>
-Include conf/extra/httpd-ssl.conf
 #
 # uncomment out the below to deal with user agents that deliberately
 # violate open standards by misusing DNT (DNT *must* be a specific
